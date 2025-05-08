@@ -9,7 +9,7 @@ export class AuthService {
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   async validateUser(authPayloadDto: AuthPayloadDto) {
     const { email, password } = authPayloadDto;
