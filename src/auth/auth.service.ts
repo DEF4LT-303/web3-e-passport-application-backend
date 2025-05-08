@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { DatabaseService } from 'src/database/database.service';
 import { AuthPayloadDto } from './dto/auth.dto';
 
+// auth.service.ts
 @Injectable()
 export class AuthService {
   constructor(
@@ -18,23 +19,19 @@ export class AuthService {
       where: { email },
     });
 
-    if (!user) {
-      return null;
-    }
+    if (!user) return null;
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) return null;
 
-    if (!isPasswordValid) {
-      return null;
-    }
+    return user;
+  }
 
-    const payload = {
-      sub: user.id,
-      email: user.email,
-    };
-
+  generateJwt(user: { id: string; email: string }) {
+    const payload = { sub: user.id, email: user.email };
     return {
       access_token: this.jwtService.sign(payload),
     };
   }
 }
+
