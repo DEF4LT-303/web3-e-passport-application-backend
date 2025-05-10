@@ -5,6 +5,7 @@ import { DatabaseModule } from 'src/database/database.module';
 import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { JwtStrategy } from './strategies/jwt.strategy';
 import { localStrategy } from './strategies/local.strategy';
 
 @Module({
@@ -14,10 +15,10 @@ import { localStrategy } from './strategies/local.strategy';
     UsersModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '1h' },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, localStrategy],
+  providers: [AuthService, localStrategy, JwtStrategy],
 })
 export class AuthModule { }
