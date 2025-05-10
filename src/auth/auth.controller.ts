@@ -1,9 +1,10 @@
-import { Body, Controller, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards, ValidationPipe, HttpException, HttpStatus } from '@nestjs/common';
 import { Request } from 'express';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
 import { LocalGuard } from './guards/local.guard';
+import { Prisma } from '@prisma/client';
 
 @Controller('auth')
 export class AuthController {
@@ -20,9 +21,19 @@ export class AuthController {
 
   @Post('register')
   async register(@Body(ValidationPipe) createUserDto: CreateUserDto) {
-    //TODO - Handle custom error messages
-    const user = await this.usersService.create(createUserDto);
-
-    return this.authService.generateJwt(user);
+    try {
+      const user = await this.usersService.create(createUserDto);
+      return this.authService.generateJwt(user);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new HttpException(
+            'Email already exists',
+            HttpStatus.CONFLICT
+          );
+        }
+      }
+      throw error;
+    }
   }
 }
