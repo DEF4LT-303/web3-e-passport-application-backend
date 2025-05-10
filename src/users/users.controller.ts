@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Prisma } from '@prisma/client';
+import { Request } from 'express';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 
@@ -35,8 +36,15 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'))
   async update(
     @Param('id') id: string,
-    @Body(ValidationPipe) updateUserDto: Prisma.UserUpdateInput
+    @Body(ValidationPipe) updateUserDto: Prisma.UserUpdateInput,
+    @Req() req: Request
   ) {
+    const loggedInUser = req.user as any;
+
+    if (loggedInUser.id !== id && loggedInUser.role !== 'ADMIN') {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
+
     const user = await this.usersService.findOne(id);
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -55,7 +63,13 @@ export class UsersController {
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string, @Req() req: Request) {
+    const loggedInUser = req.user as any;
+
+    if (loggedInUser.userId !== id && loggedInUser.role !== 'ADMIN') {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
+
     const user = await this.usersService.findOne(id);
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
