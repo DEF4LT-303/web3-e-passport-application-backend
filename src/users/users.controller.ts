@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Prisma } from '@prisma/client';
 import { Request } from 'express';
@@ -10,7 +10,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
   @Post()
-  create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
@@ -36,7 +36,7 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'))
   async update(
     @Param('id') id: string,
-    @Body(ValidationPipe) updateUserDto: Prisma.UserUpdateInput,
+    @Body() updateUserDto: Prisma.UserUpdateInput,
     @Req() req: Request
   ) {
     const loggedInUser = req.user as any;
