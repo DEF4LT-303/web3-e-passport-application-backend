@@ -24,12 +24,18 @@ export class UsersService {
       where: {
         role: role ? { equals: role } : undefined,
       },
+      omit: {
+        password: true,
+      }
     });
   }
 
   findOne(id: string) {
     return this.databaseService.user.findUnique({
       where: { id },
+      omit: {
+        password: true,
+      }
     });
   }
 
