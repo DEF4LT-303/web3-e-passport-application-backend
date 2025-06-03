@@ -61,7 +61,7 @@ model PassportType {
   id   String           @id @default(uuid())
   type PassportTypeEnum
 
-  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id])
+  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
@@ -80,7 +80,7 @@ model PersonalInfo {
   birthDate     DateTime?
   citizenType   String
 
-  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id])
+  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
@@ -103,7 +103,7 @@ model Address {
   policeStation2 String
   officeType     String
 
-  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id])
+  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
@@ -113,7 +113,7 @@ model IDDocuments {
   otherPassport Boolean?
   nid           String
 
-  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id])
+  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
@@ -135,7 +135,7 @@ model ParentalInfo {
   legalGnationality String
   mhaon             String
 
-  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id])
+  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
@@ -146,7 +146,7 @@ model SpouseInfo {
   spouseProfession  String
   spouseNationality String
 
-  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id])
+  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
@@ -165,7 +165,7 @@ model EmergencyContact {
   countryCode         String
   mobileNo            String
 
-  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id])
+  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
@@ -174,7 +174,7 @@ model PassportOptions {
   validity String
   price    String
 
-  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id])
+  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
@@ -184,6 +184,6 @@ model DeliveryAndAppointment {
   price        String
   dateTime     DateTime?
 
-  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id])
+  formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
