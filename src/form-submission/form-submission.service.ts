@@ -19,6 +19,7 @@ export class FormSubmissionService {
       emergencyContact,
       passportOptions,
       deliveryAndAppointment,
+      nftStatus,
     } = createFormSubmissionDto;
 
     try {
@@ -35,6 +36,7 @@ export class FormSubmissionService {
           emergencyContact: emergencyContact ? { create: emergencyContact } : undefined,
           passportOptions: passportOptions ? { create: passportOptions } : undefined,
           deliveryAndAppointment: deliveryAndAppointment ? { create: deliveryAndAppointment } : undefined,
+          nftStatus: nftStatus ? { create: nftStatus } : undefined,
         },
         include: {
           passportType: true,
