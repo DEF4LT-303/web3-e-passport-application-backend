@@ -6,6 +6,7 @@ import {
   CreateDeliveryAndAppointmentDto,
   CreateEmergencyContactDto,
   CreateIDDocumentsDto,
+  CreateNftStatusDto,
   CreateParentalInfoDto,
   CreatePassportOptionsDto,
   CreatePassportTypeDto,
@@ -61,4 +62,9 @@ export class CreateFormSubmissionDto {
   @ValidateNested()
   @Type(() => CreateDeliveryAndAppointmentDto)
   deliveryAndAppointment?: CreateDeliveryAndAppointmentDto;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => CreateNftStatusDto)
+  nftStatus?: CreateNftStatusDto;
 }

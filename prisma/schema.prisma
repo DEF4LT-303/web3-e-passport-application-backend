@@ -46,6 +46,7 @@ model FormSubmission {
   emergencyContact       EmergencyContact?
   passportOptions        PassportOptions?
   deliveryAndAppointment DeliveryAndAppointment?
+  nftStatus              NftStatus?
 
   formStatus Json?
 }
@@ -66,7 +67,7 @@ model PassportType {
 }
 
 model PersonalInfo {
-  id            String    @id @default(uuid())
+  id            String @id @default(uuid())
   gender        String
   fullName      String
   firstName     String
@@ -77,7 +78,7 @@ model PersonalInfo {
   mobileNo      String
   birthCountry  String
   birthDistrict String
-  birthDate     DateTime?
+  birthDate     String
   citizenType   String
 
   formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
@@ -186,4 +187,13 @@ model DeliveryAndAppointment {
 
   formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
+}
+
+model NftStatus {
+  id     String  @id @default(uuid())
+  minted Boolean
+  nftId  String?
+
+  formSubmission   FormSubmission? @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
+  formSubmissionId String?         @unique
 }

@@ -33,7 +33,7 @@ export class CreatePersonalInfoDto {
 
   @IsOptional()
   @IsDateString()
-  birthDate?: string;
+  birthDate: string;
 
   @IsString()
   citizenType: string;
