@@ -23,10 +23,10 @@ export class FormSubmissionService {
     } = createFormSubmissionDto;
 
     try {
-      const formSubmission = await this.databaseService.formSubmission.create({
-        data: {
+      const formSubmission = await this.databaseService.formSubmission.upsert({
+        where: { userId },
+        create: {
           user: { connect: { id: userId } },
-
           passportType: passportType ? { create: passportType } : undefined,
           personalInfo: personalInfo ? { create: personalInfo } : undefined,
           address: address ? { create: address } : undefined,
@@ -37,6 +37,18 @@ export class FormSubmissionService {
           passportOptions: passportOptions ? { create: passportOptions } : undefined,
           deliveryAndAppointment: deliveryAndAppointment ? { create: deliveryAndAppointment } : undefined,
           nftStatus: nftStatus ? { create: nftStatus } : undefined,
+        },
+        update: {
+          passportType: passportType ? { update: passportType } : undefined,
+          personalInfo: personalInfo ? { update: personalInfo } : undefined,
+          address: address ? { update: address } : undefined,
+          idDocuments: idDocuments ? { update: idDocuments } : undefined,
+          parentalInfo: parentalInfo ? { update: parentalInfo } : undefined,
+          spouseInfo: spouseInfo ? { update: spouseInfo } : undefined,
+          emergencyContact: emergencyContact ? { update: emergencyContact } : undefined,
+          passportOptions: passportOptions ? { update: passportOptions } : undefined,
+          deliveryAndAppointment: deliveryAndAppointment ? { update: deliveryAndAppointment } : undefined,
+          nftStatus: nftStatus ? { update: nftStatus } : undefined,
         },
         include: {
           passportType: true,
@@ -63,8 +75,8 @@ export class FormSubmissionService {
     }
   }
 
-  findAll() {
-    return this.databaseService.formSubmission.findMany({
+  async findAll() {
+    const submissions = await this.databaseService.formSubmission.findMany({
       include: {
         user: true,
         passportType: true,
@@ -78,6 +90,12 @@ export class FormSubmissionService {
         deliveryAndAppointment: true,
       },
     });
+
+    const totalCount = await this.databaseService.formSubmission.count();
+    return {
+      totalCount,
+      submissions,
+    };
   }
 
   findOne(id: string) {

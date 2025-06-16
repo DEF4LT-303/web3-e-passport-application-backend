@@ -18,7 +18,7 @@ export class FormSubmissionController {
   async findAll() {
     const formSubmissions = await this.formSubmissionService.findAll();
 
-    if (!formSubmissions || formSubmissions.length === 0) {
+    if (!formSubmissions || formSubmissions.totalCount === 0) {
       throw new HttpException('No form submissions found', HttpStatus.NOT_FOUND);
     }
     return formSubmissions;
