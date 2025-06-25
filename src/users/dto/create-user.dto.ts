@@ -8,5 +8,5 @@ export class CreateUserDto {
   password: string;
 
   @IsNotEmpty()
-  name: string;
+  fullName: string;
 }
