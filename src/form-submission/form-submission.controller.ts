@@ -38,7 +38,7 @@ export class FormSubmissionController {
   async findByUserId(@Param('userId') userId: string) {
     const formSubmissions = await this.formSubmissionService.findByUserId(userId);
 
-    if (!formSubmissions || formSubmissions.length === 0) {
+    if (!formSubmissions) {
       throw new HttpException('No form submissions found for this user', HttpStatus.NOT_FOUND);
     }
     return formSubmissions;

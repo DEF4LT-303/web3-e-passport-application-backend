@@ -117,7 +117,7 @@ export class FormSubmissionService {
   }
 
   findByUserId(userId: string) {
-    return this.databaseService.formSubmission.findMany({
+    return this.databaseService.formSubmission.findFirst({
       where: { userId },
       include: {
         user: true,

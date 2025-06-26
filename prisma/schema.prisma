@@ -67,42 +67,42 @@ model PassportType {
 }
 
 model PersonalInfo {
-  id            String @id @default(uuid())
-  gender        String
-  fullName      String
-  firstName     String
-  surName       String
-  profession    String
-  religion      String
-  countryCode   String
-  mobileNo      String
-  birthCountry  String
-  birthDistrict String
-  birthDate     String
-  citizenType   String
+  id            String  @id @default(uuid())
+  gender        String?
+  fullName      String?
+  firstName     String?
+  surName       String?
+  profession    String?
+  religion      String?
+  countryCode   String?
+  mobileNo      String?
+  birthCountry  String?
+  birthDistrict String?
+  birthDate     String?
+  citizenType   String?
 
   formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
 model Address {
-  id             String  @id @default(uuid())
-  district       String
-  city           String
-  block          String
-  postOffice     String
-  postalCode     String
-  policeStation  String
-  yes            Boolean
-  no             Boolean
-  country        String
-  district2      String
-  city2          String
-  block2         String
-  postOffice2    String
-  postalCode2    String
-  policeStation2 String
-  officeType     String
+  id             String   @id @default(uuid())
+  block          String?
+  district       String?
+  city           String?
+  postOffice     String?
+  postalCode     String?
+  policeStation  String?
+  yes            Boolean?
+  no             Boolean?
+  country        String?
+  district2      String?
+  city2          String?
+  block2         String?
+  postOffice2    String?
+  postalCode2    String?
+  policeStation2 String?
+  officeType     String?
 
   formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
@@ -110,70 +110,70 @@ model Address {
 
 model IDDocuments {
   id            String   @id @default(uuid())
-  prevPassport  String
+  prevPassport  String?
   otherPassport Boolean?
-  nid           String
+  nid           String?
 
   formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
 model ParentalInfo {
-  id                String  @id @default(uuid())
-  fInfoStatus       Boolean
-  fatherName        String
-  fatherProfession  String
-  fatherNationality String
-  fatherNid         String
-  mInfoStatus       Boolean
-  motherName        String
-  motherProfession  String
-  motherNationality String
-  motherNid         String
-  lgiStatus         Boolean
-  legalGname        String
-  legalGprofession  String
-  legalGnationality String
-  mhaon             String
+  id                String   @id @default(uuid())
+  fInfoStatus       Boolean?
+  fatherName        String?
+  fatherProfession  String?
+  fatherNationality String?
+  fatherNid         String?
+  mInfoStatus       Boolean?
+  motherName        String?
+  motherProfession  String?
+  motherNationality String?
+  motherNid         String?
+  lgiStatus         Boolean?
+  legalGname        String?
+  legalGprofession  String?
+  legalGnationality String?
+  mhaon             String?
 
   formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
 model SpouseInfo {
-  id                String @id @default(uuid())
-  maritalStatus     String
-  spouseName        String
-  spouseProfession  String
-  spouseNationality String
+  id                String  @id @default(uuid())
+  maritalStatus     String?
+  spouseName        String?
+  spouseProfession  String?
+  spouseNationality String?
 
   formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
 model EmergencyContact {
-  id                  String @id @default(uuid())
-  contactRelationShip String
-  name                String
-  country             String
-  district            String
-  city                String
-  block               String
-  postOffice          String
-  postalCode          String
-  policeStation       String
-  email               String
-  countryCode         String
-  mobileNo            String
+  id                  String  @id @default(uuid())
+  contactRelationShip String?
+  name                String?
+  country             String?
+  district            String?
+  city                String?
+  block               String?
+  postOffice          String?
+  postalCode          String?
+  policeStation       String?
+  email               String?
+  countryCode         String?
+  mobileNo            String?
 
   formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
 }
 
 model PassportOptions {
-  id       String @id @default(uuid())
-  validity String
-  price    String
+  id       String  @id @default(uuid())
+  validity String?
+  price    String?
 
   formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
@@ -181,8 +181,8 @@ model PassportOptions {
 
 model DeliveryAndAppointment {
   id           String    @id @default(uuid())
-  deliveryType String
-  price        String
+  deliveryType String?
+  price        String?
   dateTime     DateTime?
 
   formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
@@ -190,8 +190,8 @@ model DeliveryAndAppointment {
 }
 
 model NftStatus {
-  id     String  @id @default(uuid())
-  minted Boolean
+  id     String   @id @default(uuid())
+  minted Boolean?
   nftId  String?
 
   formSubmission   FormSubmission? @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)

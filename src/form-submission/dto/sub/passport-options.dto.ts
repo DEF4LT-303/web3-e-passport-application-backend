@@ -1,14 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export class CreatePassportOptionsDto {
-  @IsString()
-  validity: string;
-
-  @IsString()
-  price: string;
-}
-
-export class UpdatePassportOptionsDto {
+export class PassportOptionsDto {
   @IsOptional()
   @IsString()
   validity?: string;
@@ -17,3 +9,6 @@ export class UpdatePassportOptionsDto {
   @IsString()
   price?: string;
 }
+
+export class CreatePassportOptionsDto extends PassportOptionsDto { }
+export class UpdatePassportOptionsDto extends PassportOptionsDto { }

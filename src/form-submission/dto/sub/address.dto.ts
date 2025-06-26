@@ -1,56 +1,6 @@
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
-export class CreateAddressDto {
-  @IsString()
-  district: string;
-
-  @IsString()
-  city: string;
-
-  @IsString()
-  block: string;
-
-  @IsString()
-  postOffice: string;
-
-  @IsString()
-  postalCode: string;
-
-  @IsString()
-  policeStation: string;
-
-  @IsBoolean()
-  yes: boolean;
-
-  @IsBoolean()
-  no: boolean;
-
-  @IsString()
-  country: string;
-
-  @IsString()
-  district2: string;
-
-  @IsString()
-  city2: string;
-
-  @IsString()
-  block2: string;
-
-  @IsString()
-  postOffice2: string;
-
-  @IsString()
-  postalCode2: string;
-
-  @IsString()
-  policeStation2: string;
-
-  @IsString()
-  officeType: string;
-}
-
-export class UpdateAddressDto {
+export class AddressDto {
   @IsOptional()
   @IsString()
   district?: string;
@@ -115,3 +65,6 @@ export class UpdateAddressDto {
   @IsString()
   officeType?: string;
 }
+
+export class CreateAddressDto extends AddressDto { }
+export class UpdateAddressDto extends AddressDto { }

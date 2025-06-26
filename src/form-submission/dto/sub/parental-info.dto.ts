@@ -1,53 +1,6 @@
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
-export class CreateParentalInfoDto {
-  @IsBoolean()
-  fInfoStatus: boolean;
-
-  @IsString()
-  fatherName: string;
-
-  @IsString()
-  fatherProfession: string;
-
-  @IsString()
-  fatherNationality: string;
-
-  @IsString()
-  fatherNid: string;
-
-  @IsBoolean()
-  mInfoStatus: boolean;
-
-  @IsString()
-  motherName: string;
-
-  @IsString()
-  motherProfession: string;
-
-  @IsString()
-  motherNationality: string;
-
-  @IsString()
-  motherNid: string;
-
-  @IsBoolean()
-  lgiStatus: boolean;
-
-  @IsString()
-  legalGname: string;
-
-  @IsString()
-  legalGprofession: string;
-
-  @IsString()
-  legalGnationality: string;
-
-  @IsString()
-  mhaon: string;
-}
-
-export class UpdateParentalInfoDto {
+export class ParentalInfoDto {
   @IsOptional()
   @IsBoolean()
   fInfoStatus?: boolean;
@@ -108,3 +61,6 @@ export class UpdateParentalInfoDto {
   @IsString()
   mhaon?: string;
 }
+
+export class CreateParentalInfoDto extends ParentalInfoDto { }
+export class UpdateParentalInfoDto extends ParentalInfoDto { }

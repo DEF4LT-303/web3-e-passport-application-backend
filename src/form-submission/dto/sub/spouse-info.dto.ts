@@ -1,20 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export class CreateSpouseInfoDto {
-  @IsString()
-  maritalStatus: string;
-
-  @IsString()
-  spouseName: string;
-
-  @IsString()
-  spouseProfession: string;
-
-  @IsString()
-  spouseNationality: string;
-}
-
-export class UpdateSpouseInfoDto {
+export class SpouseInfoDto {
   @IsOptional()
   @IsString()
   maritalStatus?: string;
@@ -31,3 +17,6 @@ export class UpdateSpouseInfoDto {
   @IsString()
   spouseNationality?: string;
 }
+
+export class CreateSpouseInfoDto extends SpouseInfoDto { }
+export class UpdateSpouseInfoDto extends SpouseInfoDto { }
