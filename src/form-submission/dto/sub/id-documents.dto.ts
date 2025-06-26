@@ -1,18 +1,6 @@
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
-export class CreateIDDocumentsDto {
-  @IsString()
-  prevPassport: string;
-
-  @IsOptional()
-  @IsBoolean()
-  otherPassport?: boolean;
-
-  @IsString()
-  nid: string;
-}
-
-export class UpdateIDDocumentsDto {
+export class IDDocumentsDto {
   @IsOptional()
   @IsString()
   prevPassport?: string;
@@ -25,3 +13,6 @@ export class UpdateIDDocumentsDto {
   @IsString()
   nid?: string;
 }
+
+export class CreateIDDocumentsDto extends IDDocumentsDto { }
+export class UpdateIDDocumentsDto extends IDDocumentsDto { }

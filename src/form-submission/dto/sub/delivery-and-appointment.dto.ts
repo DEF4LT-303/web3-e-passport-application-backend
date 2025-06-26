@@ -1,18 +1,6 @@
 import { IsDateString, IsOptional, IsString } from 'class-validator';
 
-export class CreateDeliveryAndAppointmentDto {
-  @IsString()
-  deliveryType: string;
-
-  @IsString()
-  price: string;
-
-  @IsOptional()
-  @IsDateString()
-  dateTime?: string;
-}
-
-export class UpdateDeliveryAndAppointmentDto {
+export class DeliveryAndAppointmentDto {
   @IsOptional()
   @IsString()
   deliveryType?: string;
@@ -25,3 +13,6 @@ export class UpdateDeliveryAndAppointmentDto {
   @IsDateString()
   dateTime?: string;
 }
+
+export class CreateDeliveryAndAppointmentDto extends DeliveryAndAppointmentDto { }
+export class UpdateDeliveryAndAppointmentDto extends DeliveryAndAppointmentDto { }

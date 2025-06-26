@@ -1,45 +1,6 @@
 import { IsDateString, IsOptional, IsString } from 'class-validator';
 
-export class CreatePersonalInfoDto {
-  @IsString()
-  gender: string;
-
-  @IsString()
-  fullName: string;
-
-  @IsString()
-  firstName: string;
-
-  @IsString()
-  surName: string;
-
-  @IsString()
-  profession: string;
-
-  @IsString()
-  religion: string;
-
-  @IsString()
-  countryCode: string;
-
-  @IsString()
-  mobileNo: string;
-
-  @IsString()
-  birthCountry: string;
-
-  @IsString()
-  birthDistrict: string;
-
-  @IsOptional()
-  @IsDateString()
-  birthDate: string;
-
-  @IsString()
-  citizenType: string;
-}
-
-export class UpdatePersonalInfoDto {
+export class PersonalInfoDto {
   @IsOptional()
   @IsString()
   gender?: string;
@@ -88,3 +49,6 @@ export class UpdatePersonalInfoDto {
   @IsString()
   citizenType?: string;
 }
+
+export class CreatePersonalInfoDto extends PersonalInfoDto { }
+export class UpdatePersonalInfoDto extends PersonalInfoDto { }

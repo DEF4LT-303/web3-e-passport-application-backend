@@ -1,44 +1,6 @@
 import { IsEmail, IsOptional, IsString } from 'class-validator';
 
-export class CreateEmergencyContactDto {
-  @IsString()
-  contactRelationShip: string;
-
-  @IsString()
-  name: string;
-
-  @IsString()
-  country: string;
-
-  @IsString()
-  district: string;
-
-  @IsString()
-  city: string;
-
-  @IsString()
-  block: string;
-
-  @IsString()
-  postOffice: string;
-
-  @IsString()
-  postalCode: string;
-
-  @IsString()
-  policeStation: string;
-
-  @IsEmail()
-  email: string;
-
-  @IsString()
-  countryCode: string;
-
-  @IsString()
-  mobileNo: string;
-}
-
-export class UpdateEmergencyContactDto {
+export class EmergencyContactDto {
   @IsOptional()
   @IsString()
   contactRelationShip?: string;
@@ -87,3 +49,6 @@ export class UpdateEmergencyContactDto {
   @IsString()
   mobileNo?: string;
 }
+
+export class CreateEmergencyContactDto extends EmergencyContactDto { }
+export class UpdateEmergencyContactDto extends EmergencyContactDto { }
