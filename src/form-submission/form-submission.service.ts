@@ -20,6 +20,8 @@ export class FormSubmissionService {
       passportOptions,
       deliveryAndAppointment,
       nftStatus,
+      formStatus,
+      currentIndex,
     } = createFormSubmissionDto;
 
     try {
@@ -37,6 +39,8 @@ export class FormSubmissionService {
           passportOptions: passportOptions ? { create: passportOptions } : undefined,
           deliveryAndAppointment: deliveryAndAppointment ? { create: deliveryAndAppointment } : undefined,
           nftStatus: nftStatus ? { create: nftStatus } : undefined,
+          formStatus: formStatus ? JSON.parse(formStatus) : undefined,
+          currentIndex: currentIndex,
         },
         update: {
           passportType: passportType ? { update: passportType } : undefined,
@@ -49,6 +53,8 @@ export class FormSubmissionService {
           passportOptions: passportOptions ? { update: passportOptions } : undefined,
           deliveryAndAppointment: deliveryAndAppointment ? { update: deliveryAndAppointment } : undefined,
           nftStatus: nftStatus ? { update: nftStatus } : undefined,
+          formStatus: formStatus ? JSON.parse(formStatus) : undefined,
+          currentIndex: currentIndex,
         },
         include: {
           passportType: true,
@@ -60,6 +66,7 @@ export class FormSubmissionService {
           emergencyContact: true,
           passportOptions: true,
           deliveryAndAppointment: true,
+          nftStatus: true,
         },
       });
 
@@ -88,18 +95,20 @@ export class FormSubmissionService {
         emergencyContact: true,
         passportOptions: true,
         deliveryAndAppointment: true,
+        nftStatus: true,
       },
     });
 
     const totalCount = await this.databaseService.formSubmission.count();
+
     return {
       totalCount,
       submissions,
     };
   }
 
-  findOne(id: string) {
-    return this.databaseService.formSubmission.findUnique({
+  async findOne(id: string) {
+    const submission = await this.databaseService.formSubmission.findUnique({
       where: { id },
       include: {
         user: true,
@@ -114,10 +123,18 @@ export class FormSubmissionService {
         deliveryAndAppointment: true,
       },
     });
+
+    const { formStatus, currentIndex, ...formData } = submission || {};
+
+    return {
+      formData: formData,
+      formStatus: formStatus ? JSON.stringify(formStatus) : null,
+      currentIndex: currentIndex ?? 0,
+    };
   }
 
-  findByUserId(userId: string) {
-    return this.databaseService.formSubmission.findFirst({
+  async findByUserId(userId: string) {
+    const submission = await this.databaseService.formSubmission.findFirst({
       where: { userId },
       include: {
         user: true,
@@ -132,6 +149,14 @@ export class FormSubmissionService {
         deliveryAndAppointment: true,
       },
     });
+
+    const { formStatus, currentIndex, ...formData } = submission || {};
+
+    return {
+      formData: formData,
+      formStatus: formStatus ? JSON.stringify(formStatus) : null,
+      currentIndex: currentIndex ?? 0,
+    };
   }
 
   update(id: string, updateFormSubmissionDto: UpdateFormSubmissionDto) {

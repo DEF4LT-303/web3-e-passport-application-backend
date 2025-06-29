@@ -48,7 +48,8 @@ model FormSubmission {
   deliveryAndAppointment DeliveryAndAppointment?
   nftStatus              NftStatus?
 
-  formStatus Json?
+  formStatus   Json?
+  currentIndex Int?  @default(0)
 }
 
 // =================== Form Sections ======================

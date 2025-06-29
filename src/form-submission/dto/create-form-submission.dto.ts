@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsOptional, IsUUID, ValidateNested } from 'class-validator';
+import { IsJSON, IsNumber, IsOptional, IsUUID, ValidateNested } from 'class-validator';
 
 import {
   CreateAddressDto,
@@ -17,6 +17,13 @@ import {
 export class CreateFormSubmissionDto {
   @IsUUID()
   userId: string;
+
+  @IsOptional()
+  @IsNumber()
+  currentIndex?: number;
+
+  @IsJSON({ message: 'data must be valid JSON' })
+  formStatus?: string;
 
   @IsOptional()
   @ValidateNested()
