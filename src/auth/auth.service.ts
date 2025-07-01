@@ -1,6 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import argon2 from '@node-rs/argon2';
 import * as bcrypt from 'bcrypt';
 import { DatabaseService } from 'src/database/database.service';
 import { UsersService } from 'src/users/users.service';
@@ -36,8 +35,8 @@ export class AuthService {
     const { accessToken, refreshToken } = await this.generateTokens(payload);
 
     // Hash before storing
-    // const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
-    const hashedRefreshToken = await argon2.hash(refreshToken);
+    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+    // const hashedRefreshToken = await argon2.hash(refreshToken);
 
     await this.userService.update(user.id, {
       refreshToken: hashedRefreshToken,
@@ -78,8 +77,8 @@ export class AuthService {
     const { accessToken, refreshToken } = await this.generateTokens(payload);
 
     // Hash before storing
-    // const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
-    const hashedRefreshToken = await argon2.hash(refreshToken);
+    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
+    // const hashedRefreshToken = await argon2.hash(refreshToken);
 
     await this.userService.update(user.id, {
       refreshToken: hashedRefreshToken,
@@ -101,8 +100,8 @@ export class AuthService {
 
     if (!user || !user.refreshToken) throw new UnauthorizedException('Invalid refresh token');
 
-    // const isValid = await bcrypt.compare(refreshToken, user.refreshToken);
-    const isValid = await argon2.verify(user.refreshToken, refreshToken);
+    const isValid = await bcrypt.compare(refreshToken, user.refreshToken);
+    // const isValid = await argon2.verify(user.refreshToken, refreshToken);
     if (!isValid) throw new UnauthorizedException('Invalid refresh token');
 
     return {
