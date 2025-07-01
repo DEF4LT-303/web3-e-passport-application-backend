@@ -5,6 +5,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
 import { LocalGuard } from './guards/local.guard';
+import { RefreshGuard } from './guards/refresh.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -16,14 +17,14 @@ export class AuthController {
   @Post('login')
   @UseGuards(LocalGuard)
   async login(@Req() req: Request) {
-    return this.authService.generateJwt(req.user as any);
+    return this.authService.login(req.user as any);
   }
 
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     try {
       const user = await this.usersService.create(createUserDto);
-      return this.authService.generateJwt(user);
+      return this.authService.login(user);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -35,5 +36,11 @@ export class AuthController {
       }
       throw error;
     }
+  }
+
+  @Post('refresh')
+  @UseGuards(RefreshGuard)
+  async refreshToken(@Req() req: Request) {
+    return this.authService.refreshToken(req.user as any);
   }
 }
