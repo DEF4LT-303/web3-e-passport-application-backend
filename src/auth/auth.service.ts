@@ -1,11 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 import { DatabaseService } from 'src/database/database.service';
 import { UsersService } from 'src/users/users.service';
 import { AuthPayloadDto } from './dto/auth.dto';
 
-// auth.service.ts
 @Injectable()
 export class AuthService {
   constructor(
@@ -34,9 +34,8 @@ export class AuthService {
 
     const { accessToken, refreshToken } = await this.generateTokens(payload);
 
-    // Hash before storing
-    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
-    // const hashedRefreshToken = await argon2.hash(refreshToken);
+    // Hash refresh token with crypto instead of bcrypt for better token rotation
+    const hashedRefreshToken = this.hashRefreshToken(refreshToken);
 
     await this.userService.update(user.id, {
       refreshToken: hashedRefreshToken,
@@ -71,14 +70,19 @@ export class AuthService {
     };
   }
 
+  private hashRefreshToken(token: string): string {
+    return crypto
+      .createHash('sha256')
+      .update(token)
+      .digest('hex');
+  }
+
   async refreshToken(user: { id: string; email: string, role: string }) {
     const payload = { sub: user.id, email: user.email, role: user.role };
 
     const { accessToken, refreshToken } = await this.generateTokens(payload);
 
-    // Hash before storing
-    const hashedRefreshToken = await bcrypt.hash(refreshToken, 10);
-    // const hashedRefreshToken = await argon2.hash(refreshToken);
+    const hashedRefreshToken = this.hashRefreshToken(refreshToken);
 
     await this.userService.update(user.id, {
       refreshToken: hashedRefreshToken,
@@ -100,8 +104,9 @@ export class AuthService {
 
     if (!user || !user.refreshToken) throw new UnauthorizedException('Invalid refresh token');
 
-    const isValid = await bcrypt.compare(refreshToken, user.refreshToken);
-    // const isValid = await argon2.verify(user.refreshToken, refreshToken);
+    const hashedToken = this.hashRefreshToken(refreshToken);
+    const isValid = hashedToken === user.refreshToken;
+
     if (!isValid) throw new UnauthorizedException('Invalid refresh token');
 
     return {
