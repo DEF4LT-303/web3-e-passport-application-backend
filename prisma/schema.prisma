@@ -61,8 +61,8 @@ enum PassportTypeEnum {
 }
 
 model PassportType {
-  id   String           @id @default(uuid())
-  type PassportTypeEnum
+  id   String            @id @default(uuid())
+  type PassportTypeEnum?
 
   formSubmission   FormSubmission @relation(fields: [formSubmissionId], references: [id], onDelete: Cascade)
   formSubmissionId String         @unique
